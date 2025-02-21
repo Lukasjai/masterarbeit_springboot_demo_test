@@ -1,4 +1,4 @@
-FROM bellsoft/liberica-runtime-container:jdk-17-musl
+FROM openjdk:17-jdk-slim
 WORKDIR /workspace/app
 
 COPY mvnw .
@@ -9,7 +9,7 @@ COPY src src
 RUN ./mvnw install -DskipTests
 RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
 
-FROM bellsoft/liberica-runtime-container:jdk-17-musl
+FROM openjdk:17-jdk-slim
 VOLUME /tmp
 ARG DEPENDENCY=/workspace/app/target/dependency
 COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
